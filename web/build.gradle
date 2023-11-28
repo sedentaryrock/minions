@@ -1,0 +1,10 @@
+plugins {
+    id 'common-conventions'
+    id 'application'
+}
+
+dependencies {
+    implementation (libs.scala.lib)
+
+    implementation 'io.vacco.java-express:java-express:0.2.1'
+}

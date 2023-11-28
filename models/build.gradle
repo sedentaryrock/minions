@@ -1,0 +1,11 @@
+plugins {
+    id 'common-conventions'
+}
+
+dependencies {
+    implementation(libs.akka.stream)
+    implementation(libs.alpaka)
+
+    implementation(libs.mongodb)
+    implementation(libs.mongodb.scala)
+}

@@ -1,0 +1,18 @@
+plugins { id 'scala' }
+
+tasks.withType(JavaCompile).configureEach {
+    enabled = false
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://repo.akka.io/maven"
+    }
+    maven {
+        url "https://jcenter.bintray.com/"
+    }
+}
