@@ -1,2 +1,2 @@
 # minions
-Yet to decide
+Simple Job/Task framework
