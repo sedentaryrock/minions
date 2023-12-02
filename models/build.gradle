@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     implementation(libs.akka.stream)
-    implementation(libs.alpaka)
+    implementation(libs.alpakka)
 
     implementation(libs.mongodb)
     implementation(libs.mongodb.scala)
