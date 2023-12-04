@@ -2,14 +2,14 @@ package org.example
 
 import com.mongodb.client.model.ReturnDocument
 import com.mongodb.reactivestreams.client.MongoClients
+import org.bson.codecs.Codec
 import org.bson.codecs.configuration.CodecRegistries.{fromProviders, fromRegistries}
 import org.bson.codecs.configuration.{CodecProvider, CodecRegistry}
 import org.example.model.Message
 import org.mongodb.scala.MongoClient.DEFAULT_CODEC_REGISTRY
 import org.mongodb.scala.bson.codecs.Macros
 import org.mongodb.scala.model.{Filters, FindOneAndUpdateOptions, Updates}
-import org.mongodb.scala.result.InsertOneResult
-import org.reactivestreams.{Publisher, Subscriber}
+import org.reactivestreams.Publisher
 
 class MessageRepositoryUsingMongo extends MessageRepository {
   private val collectionName = "messages"
@@ -25,12 +25,12 @@ class MessageRepositoryUsingMongo extends MessageRepository {
 
   override def queue(messageId: String, topic: String, status: String): Publisher[Message] = {
     val search = Filters.and(
-      Filters.eq("message_id", messageId)
+      Filters.eq("messageId", messageId)
       , Filters.eq("topic", topic)
     )
 
     val message = Updates.combine(
-      Updates.setOnInsert("message_id", messageId)
+      Updates.setOnInsert("messageId", messageId)
       , Updates.setOnInsert("topic", topic)
       , Updates.setOnInsert("status", status)
       , Updates.inc("seen", 1)

@@ -4,7 +4,7 @@ import akka.actor.ActorSystem
 import express.Express
 
 
-object Main {
+object Server {
   def main(args: Array[String]): Unit = {
     implicit val actorSystem: ActorSystem = ActorSystem()
     implicit val messageRepository: MessageRepository = new MessageRepositoryUsingMongo

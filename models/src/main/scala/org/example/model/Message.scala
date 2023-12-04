@@ -1,5 +1,6 @@
 package org.example.model
 
+import org.bson.codecs.pojo.annotations.BsonProperty
 import org.bson.types.ObjectId
 
 object Message {
@@ -17,7 +18,7 @@ object Message {
 
 case class Message(
                     _id: ObjectId,
-                    messageId: String,
+                    @BsonProperty("message_id") messageId: String,
                     topic: String,
                     status: String,
                     body: Option[Object],
