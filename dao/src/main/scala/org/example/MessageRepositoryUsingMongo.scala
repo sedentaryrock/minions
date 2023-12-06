@@ -2,7 +2,6 @@ package org.example
 
 import com.mongodb.client.model.ReturnDocument
 import com.mongodb.reactivestreams.client.MongoClients
-import org.bson.codecs.Codec
 import org.bson.codecs.configuration.CodecRegistries.{fromProviders, fromRegistries}
 import org.bson.codecs.configuration.{CodecProvider, CodecRegistry}
 import org.example.model.Message
@@ -11,17 +10,27 @@ import org.mongodb.scala.bson.codecs.Macros
 import org.mongodb.scala.model.{Filters, FindOneAndUpdateOptions, Updates}
 import org.reactivestreams.Publisher
 
+import java.time.Instant
+
 class MessageRepositoryUsingMongo extends MessageRepository {
-  private val collectionName = "messages"
+  private val COLLECTION_NAME = "messages"
+
   private val INSERT_OPTIONS: FindOneAndUpdateOptions = new FindOneAndUpdateOptions()
     .upsert(true)
     .returnDocument(ReturnDocument.AFTER)
 
-  implicit private val codecProvider: CodecProvider = Macros.createCodecProviderIgnoreNone[Message]()
-  implicit private val codecRegistry: CodecRegistry = fromRegistries(fromProviders(codecProvider), DEFAULT_CODEC_REGISTRY)
-  private val mongoClient = MongoClients.create(Configuration.mongodbUrl)
-  private val db = mongoClient.getDatabase(Configuration.mongodbDbName)
-  private val messagesCollection = db.getCollection(collectionName, classOf[Message]).withCodecRegistry(codecRegistry)
+  private val MESSAGE_CODEC_PROVIDER: CodecProvider = Macros.createCodecProviderIgnoreNone[Message]()
+
+  private val CODEC_REGISTRY: CodecRegistry = fromRegistries(
+    fromProviders(MESSAGE_CODEC_PROVIDER)
+    , DEFAULT_CODEC_REGISTRY
+  )
+
+  private val MESSAGE_COLLECTION =
+    MongoClients.create(Configuration.mongodbUrl)
+      .getDatabase(Configuration.mongodbDbName)
+      .getCollection(COLLECTION_NAME, classOf[Message])
+      .withCodecRegistry(CODEC_REGISTRY)
 
   override def queue(messageId: String, topic: String, status: String): Publisher[Message] = {
     val search = Filters.and(
@@ -33,9 +42,10 @@ class MessageRepositoryUsingMongo extends MessageRepository {
       Updates.setOnInsert("messageId", messageId)
       , Updates.setOnInsert("topic", topic)
       , Updates.setOnInsert("status", status)
+      , Updates.setOnInsert("createdOn", Instant.now())
       , Updates.inc("seen", 1)
     )
 
-    messagesCollection.findOneAndUpdate(search, message, INSERT_OPTIONS)
+    MESSAGE_COLLECTION.findOneAndUpdate(search, message, INSERT_OPTIONS)
   }
 }

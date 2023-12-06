@@ -1,12 +1,11 @@
 # Urgent, Important
-* Question if Akka or Alpakka really a need
 * Package structure, currently everything is org.example
 * Module naming conventions
 * Introduce DI (Scaldi vs Airframe)
 * Middleware to encode/decode requests and response in json
  
 # Urgent, Not Important
-* Make HTTP interaction asynchronous
+Test case framework
 
 # Not Urgent, Important
 * Re-look at java-express (Airframe brings its own flavor)
