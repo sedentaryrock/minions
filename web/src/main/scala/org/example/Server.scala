@@ -6,7 +6,7 @@ import express.Express
 
 object Server {
   def main(args: Array[String]): Unit = {
-    implicit val actorSystem: ActorSystem = ActorSystem()
+    implicit val actorSystem: ActorSystem = ActorSystem.create(Configuration.actorSystemName)
     implicit val messageRepository: MessageRepository = new MessageRepositoryUsingMongo
     val queueManagerService: QueueManager = new QueueManagerService
 

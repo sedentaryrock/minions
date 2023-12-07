@@ -1,5 +1,9 @@
 plugins { id 'scala' }
 
+tasks.withType(ScalaCompile).configureEach {
+    scalaCompileOptions.additionalParameters = ["-release:11"]
+}
+
 tasks.withType(JavaCompile).configureEach {
     enabled = false
 }
