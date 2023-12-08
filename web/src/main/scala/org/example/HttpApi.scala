@@ -4,7 +4,7 @@ import express.DynExpress
 import express.http.RequestMethod
 import express.http.request.Request
 import express.http.response.Response
-import express.utils.Status
+import express.utils.{MediaType, Status}
 import io.circe.generic.auto._
 import io.circe.parser._
 import org.example.dtos.QueueRequestDTO

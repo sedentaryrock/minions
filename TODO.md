@@ -2,10 +2,11 @@
 * Package structure, currently everything is org.example
 * Module naming conventions
 * Introduce DI (Scaldi vs Airframe)
-* Middleware to encode/decode requests and response in json
- 
+* Test case framework
+* Add new module to daemonize workers 
+
 # Urgent, Not Important
-Test case framework
+dtos package is part of web
 
 # Not Urgent, Important
 * Re-look at java-express (Airframe brings its own flavor)
