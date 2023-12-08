@@ -7,6 +7,7 @@ import express.http.response.Response
 import express.utils.{MediaType, Status}
 import io.circe.generic.auto._
 import io.circe.parser._
+import io.circe.syntax._
 import org.example.dtos.QueueRequestDTO
 import org.example.model.Message
 
@@ -24,8 +25,11 @@ class HttpApi(queueManagerService: QueueManager) {
       case Right(qrd) =>
         val future: Future[Message] = queueManagerService.queue(qrd.messageId, qrd.topic, qrd.status)
         future.onComplete(message => {
-          res.sendStatus(Status._201)
-          res.send("" + message)
+          val responseBody: String = QueueRequestDTO.fromMessage(message.get).asJson.noSpaces
+
+          res.setStatus(Status._201)
+          res.setContentType(MediaType._json)
+          res.send(responseBody)
         })
 
       case Left(error) =>

@@ -31,6 +31,6 @@ object Configuration {
   }
 
   val mongodbUrl: String = readConfig("mongodb-url", DEFAULT_MONGODB_URL)
-  val mongodbDbName = readConfig("mongodbDbName", DEFAULT_MONGODB_DB_NAME)
+  val mongodbDbName: String = readConfig("mongodbDbName", DEFAULT_MONGODB_DB_NAME)
   val actorSystemName: String = readConfig("actorSystemName", DEFAULT_ACTOR_SYSTEM_NAME)
 }
