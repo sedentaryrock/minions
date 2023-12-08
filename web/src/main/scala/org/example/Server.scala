@@ -11,7 +11,12 @@ object Server {
     val queueManagerService: QueueManager = new QueueManagerService
 
     val app = new Express
+    val bodyParser = new BodyParserMiddleware
+    app.use("*", "POST", bodyParser)
+    app.use("*", "PUT", bodyParser)
+    app.use("*", "PATCH", bodyParser)
     app.bind(new HttpApi(queueManagerService))
+
     app.listen(9090)
   }
 }

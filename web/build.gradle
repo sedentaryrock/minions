@@ -14,4 +14,7 @@ dependencies {
     implementation project(':services')
 
     implementation 'io.vacco.java-express:java-express:0.2.1'
+    implementation 'io.circe:circe-core_2.13:0.14.6'
+    implementation 'io.circe:circe-parser_2.13:0.14.6'
+    implementation 'io.circe:circe-generic_2.13:0.14.6'
 }

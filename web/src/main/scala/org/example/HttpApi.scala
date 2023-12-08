@@ -4,19 +4,35 @@ import express.DynExpress
 import express.http.RequestMethod
 import express.http.request.Request
 import express.http.response.Response
+import express.utils.Status
+import io.circe.generic.auto._
+import io.circe.parser._
+import org.example.dtos.QueueRequestDTO
 import org.example.model.Message
 
-import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class HttpApi(queueManagerService: QueueManager) {
+
   @DynExpress(method = RequestMethod.POST, context = "/queue-manager")
   def queue(req: Request, res: Response) = {
-    val future: Future[Message] = queueManagerService.queue(UUID.randomUUID().toString, "TOPIC", "CREATED")
+    val queueRequestDTO: Either[io.circe.Error, QueueRequestDTO] =
+      decode[QueueRequestDTO](req.getMiddlewareContent(BodyParserMiddleware.NAME).toString)
 
-    future.onComplete(message => {
-      res.send("Message: " + message)
-    })
+    queueRequestDTO match {
+      case Right(qrd) =>
+        val future: Future[Message] = queueManagerService.queue(qrd.messageId, qrd.topic, qrd.status)
+        future.onComplete(message => {
+          res.sendStatus(Status._201)
+          res.send("" + message)
+        })
+
+      case Left(error) =>
+        println(s"Error decoding JSON: $error")
+        res.sendStatus(Status._400)
+    }
+
+
   }
 }
