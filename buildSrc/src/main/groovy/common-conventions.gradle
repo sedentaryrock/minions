@@ -20,3 +20,8 @@ repositories {
         url "https://jcenter.bintray.com/"
     }
 }
+
+dependencies {
+    implementation(libs.slf.api)
+    implementation(libs.slf.simple)
+}

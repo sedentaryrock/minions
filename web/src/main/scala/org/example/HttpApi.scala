@@ -10,11 +10,13 @@ import io.circe.parser._
 import io.circe.syntax._
 import org.example.dtos.QueueRequestDTO
 import org.example.model.Message
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class HttpApi(queueManagerService: QueueManager) {
+  val logger: Logger = LoggerFactory.getLogger(classOf[HttpApi])
 
   @DynExpress(method = RequestMethod.POST, context = "/queue-manager")
   def queue(req: Request, res: Response) = {
@@ -33,7 +35,7 @@ class HttpApi(queueManagerService: QueueManager) {
         })
 
       case Left(error) =>
-        println(s"Error decoding JSON: $error")
+        logger.error(s"Error decoding JSON: $error")
         res.sendStatus(Status._400)
     }
 
