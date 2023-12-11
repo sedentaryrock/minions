@@ -30,4 +30,4 @@ include 'dao'
 include 'services'
 include 'api'
 include 'web'
-
+include 'workshop'

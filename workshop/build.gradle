@@ -1,0 +1,13 @@
+plugins {
+    id 'common-conventions'
+    id 'application'
+}
+
+dependencies {
+    implementation (libs.scala.lib)
+    implementation (libs.alpakka)
+
+    implementation project(':core')
+    implementation project(':models')
+    implementation project(':dao')
+}
