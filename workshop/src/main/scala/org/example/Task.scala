@@ -1,5 +1,5 @@
 package org.example
 
-trait Task[Result] {
+trait Task[Result] extends Identifiable {
   def execute: Result
 }
