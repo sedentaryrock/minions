@@ -2,6 +2,7 @@ package org.example
 
 import akka.actor.ActorSystem
 import akka.stream.scaladsl.{Sink, Source}
+import org.example.minion.tasks.Task
 import org.example.model.Message
 
 import scala.concurrent.duration.DurationInt

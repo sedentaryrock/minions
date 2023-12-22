@@ -6,9 +6,11 @@ dependencyResolutionManagement {
             version('alpakka', '7.0.0')
             version('mongodb', '4.11.1')
             version('slf', '2.0.7')
+            version('reflections', '0.10.2')
 
             // FixME: scala version must be derived from akka or alpaka
             library('scala-lib', 'org.scala-lang', 'scala-library').versionRef('scala')
+            library('reflections','org.reflections', 'reflections').versionRef('reflections')
 
             library('slf-api', 'org.slf4j', 'slf4j-api').versionRef('slf')
             library('slf-simple', 'org.slf4j', 'slf4j-simple').versionRef('slf')
@@ -30,4 +32,5 @@ include 'dao'
 include 'services'
 include 'api'
 include 'web'
+include 'tasks'
 include 'workshop'

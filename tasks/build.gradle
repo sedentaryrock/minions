@@ -1,0 +1,9 @@
+plugins {
+    id 'common-conventions'
+}
+
+dependencies {
+    implementation (libs.scala.lib)
+
+    implementation project(':core')
+}
