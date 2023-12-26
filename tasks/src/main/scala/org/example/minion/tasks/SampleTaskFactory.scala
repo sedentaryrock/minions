@@ -1,5 +1,7 @@
 package org.example.minion.tasks
 
-object SampleTaskFactory extends TaskFactory[SampleTask]{
-  override def getInstance: Task[_] = new SampleTask
+class SampleTaskFactory extends TaskFactory[SampleTask] {
+  override def getInstance: SampleTask = new SampleTask
+
+  override def getType: Class[SampleTask] = classOf[SampleTask]
 }
