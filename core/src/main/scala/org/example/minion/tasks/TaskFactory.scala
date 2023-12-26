@@ -1,7 +1,7 @@
 package org.example.minion.tasks
 
-trait TaskFactory[T <: Task[_]] {
-  def getInstance: T
+import org.example.Identifiable
 
-  def getType: Class[T]
+trait TaskFactory[T <: Task[_]] extends Identifiable {
+  def getInstance: T
 }

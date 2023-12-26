@@ -4,10 +4,10 @@ import org.example.minion.tasks.{Task, TaskFactory}
 import org.reflections.Reflections
 
 import scala.jdk.CollectionConverters.SetHasAsScala
-import scala.reflect.{ClassTag, classTag}
+import scala.reflect.ClassTag
 
 object TaskLocator {
-  private var map: Map[Class[_], TaskFactory[_]] = Map.empty
+  private var map: Map[String, TaskFactory[_]] = Map.empty
 
   def locateTasks(): Unit = {
     val reflections = new Reflections("org.example.minion.tasks")
@@ -15,11 +15,11 @@ object TaskLocator {
 
     map = set.asScala
       .map(clazz => clazz.getDeclaredConstructor().newInstance())
-      .map(factoryInstance => (factoryInstance.getType, factoryInstance))
+      .map(factoryInstance => (factoryInstance.name, factoryInstance))
       .toMap
   }
 
-  def getFactory[T <: Task[_] : ClassTag]: Option[TaskFactory[T]] = {
-    map.get(classTag[T].runtimeClass).map(_.asInstanceOf[TaskFactory[T]])
+  def getFactory[T <: Task[_] : ClassTag](key: String): Option[TaskFactory[T]] = {
+    map.get(key).map(_.asInstanceOf[TaskFactory[T]])
   }
 }
