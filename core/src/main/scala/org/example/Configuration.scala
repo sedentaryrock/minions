@@ -4,6 +4,10 @@ import scala.annotation.unused
 
 object Configuration {
 
+
+  // Server
+  private val DEFAULT_SERVER_PORT = 9090
+
   // Akka Streams
   private val DEFAULT_ACTOR_SYSTEM_NAME = "defaultActorSystem"
 
@@ -26,10 +30,11 @@ object Configuration {
     }
   */
 
-  private def readConfig(@unused configKey: String, defaultValue: String): String = {
+  private def readConfig[T](@unused configKey: String, defaultValue: T): T = {
     defaultValue
   }
 
+  val SERVER_PORT: Int = readConfig("server.port", DEFAULT_SERVER_PORT)
   val mongodbUrl: String = readConfig("mongodb-url", DEFAULT_MONGODB_URL)
   val mongodbDbName: String = readConfig("mongodbDbName", DEFAULT_MONGODB_DB_NAME)
   val actorSystemName: String = readConfig("actorSystemName", DEFAULT_ACTOR_SYSTEM_NAME)

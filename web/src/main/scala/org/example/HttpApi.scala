@@ -8,6 +8,7 @@ import express.utils.{MediaType, Status}
 import io.circe.generic.auto._
 import io.circe.parser._
 import io.circe.syntax._
+import org.example.HttpApi.logger
 import org.example.dtos.QueueRequestDTO
 import org.example.model.Message
 import org.slf4j.{Logger, LoggerFactory}
@@ -15,11 +16,13 @@ import org.slf4j.{Logger, LoggerFactory}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class HttpApi(queueManagerService: QueueManager) {
-  val logger: Logger = LoggerFactory.getLogger(classOf[HttpApi])
+object HttpApi {
+  private val logger: Logger = LoggerFactory.getLogger(classOf[HttpApi])
+}
 
+class HttpApi(queueManagerService: QueueManager) {
   @DynExpress(method = RequestMethod.POST, context = "/queue-manager")
-  def queue(req: Request, res: Response) = {
+  def queue(req: Request, res: Response): Unit = {
     val queueRequestDTO: Either[io.circe.Error, QueueRequestDTO] =
       decode[QueueRequestDTO](req.getMiddlewareContent(BodyParserMiddleware.NAME).toString)
 
@@ -38,7 +41,5 @@ class HttpApi(queueManagerService: QueueManager) {
         logger.error(s"Error decoding JSON: $error")
         res.sendStatus(Status._400)
     }
-
-
   }
 }

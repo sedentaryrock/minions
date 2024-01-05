@@ -17,6 +17,8 @@ object Server {
     app.use("*", "PATCH", bodyParser)
     app.bind(new HttpApi(queueManagerService))
 
-    app.listen(9090)
+    app.listen(() => {
+      println(s"Server is listening on ${Configuration.SERVER_PORT}")
+    }, Configuration.SERVER_PORT)
   }
 }
