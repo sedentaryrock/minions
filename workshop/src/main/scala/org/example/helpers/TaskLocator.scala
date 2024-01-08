@@ -1,6 +1,6 @@
 package org.example.helpers
 
-import org.example.minion.tasks.{Task, TaskBuilder, TaskFactory}
+import org.example.minion.tasks.TaskFactory
 import org.reflections.Reflections
 
 import scala.jdk.CollectionConverters.SetHasAsScala
@@ -19,7 +19,11 @@ object TaskLocator {
       .toMap
   }
 
-  def getFactory[T <: TaskBuilder[_] : ClassTag](key: String): Option[TaskFactory[T]] = {
-    map.get(key).map(_.asInstanceOf[TaskFactory[T]])
+  def getFactory[T <:TaskFactory[_] : ClassTag](key: String): Option[T] = {
+    map.get(key) match {
+      case Some(value) if implicitly[ClassTag[T]].runtimeClass.isInstance(value) =>
+        Some(value.asInstanceOf[T])
+      case _ => None
+    }
   }
 }

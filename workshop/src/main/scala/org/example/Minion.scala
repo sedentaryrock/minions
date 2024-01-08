@@ -3,19 +3,19 @@ package org.example
 import akka.actor.ActorSystem
 import akka.stream.scaladsl.{Sink, Source}
 import org.example.helpers.TaskLocator
-import org.example.minion.tasks.{SampleTask, SampleTaskBuilder, SampleTaskFactory, Task, TaskBuilder, TaskFactory}
+import org.example.minion.tasks.{SampleTask, SampleTaskBuilder, SampleTaskFactory}
 import org.example.model.Message
 
 import scala.concurrent.duration.DurationInt
 
 object Minion {
-  private var transitionManagerRepository: TransitionManagerRepository = new TransitionManagerRepositoryUsingMongo
+  private val transitionManagerRepository: TransitionManagerRepository = new TransitionManagerRepositoryUsingMongo
 
   def main(args: Array[String]): Unit = {
     TaskLocator.locateTasks()
 
-    val option: Option[TaskFactory[_ <: TaskBuilder[_]]] = TaskLocator.getFactory("Sample Task Factory")
-    val sampleTaskBuilder:SampleTaskBuilder = option.get.getTaskBuilder.asInstanceOf[SampleTaskBuilder]
+    val someFactory: Option[SampleTaskFactory] = TaskLocator.getFactory[SampleTaskFactory]("Sample Task Factory")
+    val sampleTaskBuilder:SampleTaskBuilder = someFactory.get.getTaskBuilder
     sampleTaskBuilder.message("Sample Task Message")
     val task:SampleTask = sampleTaskBuilder.build
 
