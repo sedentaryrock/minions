@@ -1,14 +1,17 @@
 package org.example
 
+import com.mongodb.client.model.ReturnDocument
 import org.example.helpers.MongoCommon
-import org.example.helpers.MongoCommon.UPDATE_OPTIONS
 import org.example.model.Message
-import org.mongodb.scala.model.{Filters, Updates}
+import org.mongodb.scala.model.{Filters, FindOneAndUpdateOptions, Updates}
 import org.reactivestreams.Publisher
 
 import java.time.Instant
 
 class TransitionManagerRepositoryUsingMongo extends TransitionManagerRepository {
+  private val UPDATE_OPTIONS: FindOneAndUpdateOptions = new FindOneAndUpdateOptions()
+    .upsert(false)
+    .returnDocument(ReturnDocument.AFTER)
 
   override def transition(topic: String, statusFrom: String, statusTo: String): Publisher[Message] = {
     val search = Filters.and(
