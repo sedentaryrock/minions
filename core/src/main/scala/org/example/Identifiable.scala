@@ -1,5 +1,5 @@
 package org.example
 
 trait Identifiable {
-  def name:String
+  def name: String
 }

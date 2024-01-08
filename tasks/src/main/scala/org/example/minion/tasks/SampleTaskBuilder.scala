@@ -7,5 +7,6 @@ class SampleTaskBuilder(var message: String = "") extends TaskBuilder[SampleTask
   }
 
   override def name: String = "Sample Task Builder"
+
   override def build: SampleTask = new SampleTask(this.message)
 }

@@ -14,10 +14,10 @@ object Minion {
   def main(args: Array[String]): Unit = {
     TaskLocator.locateTasks()
 
-    val someFactory: Option[SampleTaskFactory] = TaskLocator.getFactory[SampleTaskFactory]("Sample Task Factory")
-    val sampleTaskBuilder:SampleTaskBuilder = someFactory.get.getTaskBuilder
+    val sampleTaskFactory: Option[SampleTaskFactory] = TaskLocator.getFactory[SampleTaskFactory]("Sample Task Factory")
+    val sampleTaskBuilder: SampleTaskBuilder = sampleTaskFactory.get.getTaskBuilder
     sampleTaskBuilder.message("Sample Task Message")
-    val task:SampleTask = sampleTaskBuilder.build
+    val task: SampleTask = sampleTaskBuilder.build
 
     implicit val actorSystem: ActorSystem = ActorSystem.create(Configuration.actorSystemName)
     Source.tick(0.second, 3.seconds, "Tick")

@@ -4,9 +4,9 @@ plugins {
 }
 
 dependencies {
-    implementation (libs.scala.lib)
-    implementation (libs.alpakka)
-    implementation (libs.reflections)
+    implementation(libs.scala.lib)
+    implementation(libs.alpakka)
+    implementation(libs.reflections)
 
     implementation project(':core')
     implementation project(':models')

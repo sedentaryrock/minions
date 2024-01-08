@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation (libs.scala.lib)
+    implementation(libs.scala.lib)
 
     implementation project(':models')
 }

@@ -19,7 +19,7 @@ object TaskLocator {
       .toMap
   }
 
-  def getFactory[T <:TaskFactory[_] : ClassTag](key: String): Option[T] = {
+  def getFactory[T <: TaskFactory[_] : ClassTag](key: String): Option[T] = {
     map.get(key) match {
       case Some(value) if implicitly[ClassTag[T]].runtimeClass.isInstance(value) =>
         Some(value.asInstanceOf[T])
