@@ -7,6 +7,8 @@ dependencies {
     implementation(libs.scala.lib)
     implementation(libs.alpakka)
     implementation(libs.reflections)
+    implementation(libs.mongodb)
+    implementation(libs.mongodb.scala)
 
     implementation project(':core')
     implementation project(':models')
