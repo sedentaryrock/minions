@@ -14,28 +14,15 @@ class TransitionManagerRepositoryUsingMongo extends TransitionManagerRepository 
     .upsert(false)
     .returnDocument(ReturnDocument.AFTER)
 
-  override def transition(topic: String, statusFrom: String, statusTo: String): Publisher[Message] = {
-    val search = Filters.and(
-      Filters.eq("topic", topic)
-      , Filters.eq("status", statusFrom)
-    )
-
-    val updates = Updates.combine(
-      Updates.set("status", statusTo)
-      , Updates.set("updatedOn", Instant.now)
-    )
-
-    MongoCommon.MESSAGE_COLLECTION.findOneAndUpdate(search, updates, UPDATE_OPTIONS)
-  }
-
   override def pickUp(topic: String, status: String): Publisher[Message] = {
     val search = Filters.and(
       Filters.eq("topic", topic)
       , Filters.eq("status", status)
+      , Filters.exists("WORKED_UPON", exists = false)
     )
 
     val updates = Updates.combine(
-      Updates.set("status", "")
+      Updates.set("WORKED_UPON", true)
       , Updates.set("pickedOn", Instant.now)
     )
 
@@ -47,7 +34,8 @@ class TransitionManagerRepositoryUsingMongo extends TransitionManagerRepository 
 
     val updates = Updates.combine(
       Updates.set("status", status)
-      , Updates.set("releasedOn", Instant.now)
+      , Updates.unset("WORKED_UPON")
+      , Updates.set("putOn", Instant.now)
     )
 
     MongoCommon.MESSAGE_COLLECTION.findOneAndUpdate(search, updates, UPDATE_OPTIONS)
