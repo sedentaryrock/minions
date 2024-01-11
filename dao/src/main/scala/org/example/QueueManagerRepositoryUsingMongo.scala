@@ -23,7 +23,7 @@ class QueueManagerRepositoryUsingMongo extends QueueManagerRepository {
       Updates.setOnInsert("messageId", messageId)
       , Updates.setOnInsert("topic", topic)
       , Updates.setOnInsert("status", status)
-      , Updates.setOnInsert("createdOn", Instant.now())
+      , Updates.setOnInsert("createdAt", Instant.now())
       , Updates.inc("seen", 1)
     )
 

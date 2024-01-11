@@ -23,7 +23,7 @@ class TransitionManagerRepositoryUsingMongo extends TransitionManagerRepository 
 
     val updates = Updates.combine(
       Updates.set("PICKED", true)
-      , Updates.set("pickedOn", Instant.now)
+      , Updates.set("pickedAt", Instant.now)
     )
 
     MongoCommon.MESSAGE_COLLECTION.findOneAndUpdate(search, updates, UPDATE_OPTIONS)
@@ -35,7 +35,7 @@ class TransitionManagerRepositoryUsingMongo extends TransitionManagerRepository 
     val updates = Updates.combine(
       Updates.set("status", status)
       , Updates.unset("PICKED")
-      , Updates.set("putOn", Instant.now)
+      , Updates.set("putAt", Instant.now)
     )
 
     MongoCommon.MESSAGE_COLLECTION.findOneAndUpdate(search, updates, UPDATE_OPTIONS)

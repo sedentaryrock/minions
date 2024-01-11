@@ -1,4 +1,5 @@
 package org.example
+
 import com.mongodb.client.model.ReturnDocument
 import org.example.helpers.MongoCommon
 import org.example.model.Message
@@ -13,12 +14,12 @@ class MessageRepositoryUsingMongo extends MessageRepository {
     .upsert(false)
     .returnDocument(ReturnDocument.AFTER)
 
-  override def updateOutput(_id: String, output: Object): Publisher[Message] = {
+  override def updateOutput(_id: String, output: Array[Byte]): Publisher[Message] = {
     val search = Filters.eq("_id", new ObjectId(_id))
 
     val updates = Updates.combine(
       Updates.set("output", output)
-      , Updates.set("outputUpdatedOn", Instant.now)
+      , Updates.set("outputUpdatedAt", Instant.now)
     )
 
     MongoCommon.MESSAGE_COLLECTION.findOneAndUpdate(search, updates, UPDATE_OPTIONS)
