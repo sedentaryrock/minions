@@ -18,11 +18,11 @@ class TransitionManagerRepositoryUsingMongo extends TransitionManagerRepository 
     val search = Filters.and(
       Filters.eq("topic", topic)
       , Filters.eq("status", status)
-      , Filters.exists("WORKED_UPON", exists = false)
+      , Filters.exists("PICKED", exists = false)
     )
 
     val updates = Updates.combine(
-      Updates.set("WORKED_UPON", true)
+      Updates.set("PICKED", true)
       , Updates.set("pickedOn", Instant.now)
     )
 
@@ -34,7 +34,7 @@ class TransitionManagerRepositoryUsingMongo extends TransitionManagerRepository 
 
     val updates = Updates.combine(
       Updates.set("status", status)
-      , Updates.unset("WORKED_UPON")
+      , Updates.unset("PICKED")
       , Updates.set("putOn", Instant.now)
     )
 
