@@ -23,7 +23,12 @@ object TaskLocator {
     map.get(key) match {
       case Some(value) if implicitly[ClassTag[T]].runtimeClass.isInstance(value) =>
         Some(value.asInstanceOf[T])
+      case Some(value) => Option(value.asInstanceOf[T])
       case _ => None
     }
+  }
+
+  def getFactory_(key: String) = {
+    map.get(key)
   }
 }
