@@ -1,7 +1,6 @@
 package org.example.minion.tasks
 
-import org.example.Identifiable
-
-trait Task[RESULT] extends Identifiable {
+trait Task[RESULT] {
   def execute: RESULT
+  def kind: String = this.getClass.getCanonicalName
 }

@@ -7,6 +7,7 @@ dependencyResolutionManagement {
             version('mongodb', '4.11.1')
             version('slf', '2.0.7')
             version('reflections', '0.10.2')
+            version('msg-pack', '0.8.13')
 
             // FixME: scala version must be derived from akka or alpaka
             library('scala-lib', 'org.scala-lang', 'scala-library').versionRef('scala')
@@ -20,6 +21,8 @@ dependencyResolutionManagement {
 
             library('mongodb-scala', 'org.mongodb.scala', 'mongo-scala-bson_2.13').versionRef('mongodb')
             library('mongodb', 'org.mongodb', 'mongodb-driver-reactivestreams').versionRef('mongodb')
+
+            library('msgpack-scala', 'org.msgpack', 'msgpack-scala_2.13.0-M2').versionRef('msg-pack')
         }
     }
 }

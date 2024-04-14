@@ -1,7 +1,5 @@
 package org.example.minion.tasks
 
-import org.example.Identifiable
-
-trait TaskFactory[T <: TaskBuilder[_]] extends Identifiable {
+trait TaskFactory[T <: TaskBuilder[_]] {
   def getTaskBuilder: T
 }

@@ -3,11 +3,13 @@ plugins {
 }
 
 dependencies {
-    implementation project(":core")
+    implementation project(':core')
     implementation project(':models')
 
     implementation(libs.alpakka)
 
     implementation(libs.mongodb)
     implementation(libs.mongodb.scala)
+    implementation(libs.msgpack.scala)
+
 }

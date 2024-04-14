@@ -3,7 +3,8 @@
 * Module naming conventions
 * Introduce DI (Scaldi vs Airframe)
 * Test case framework
-* Add new module to daemonize workers 
+* Add new module to daemonize workers
+* Have a way to organize the thoughts for later reference (For now dumping in the repo itself as BrainDump.md)
 
 # Urgent, Not Important
 dtos package is part of web

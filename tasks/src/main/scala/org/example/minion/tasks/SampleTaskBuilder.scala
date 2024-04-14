@@ -1,12 +1,7 @@
 package org.example.minion.tasks
 
-class SampleTaskBuilder(var message: String = "") extends TaskBuilder[SampleTask] {
-  def message(msg: String): SampleTaskBuilder = {
-    message = msg
-    this
+class SampleTaskBuilder(val message: String = "") extends TaskBuilder[SampleTask] {
+  override def build[Map[String, Object]]: SampleTask = {
+    new SampleTask("")
   }
-
-  override def name: String = "Sample Task Builder"
-
-  override def build: SampleTask = new SampleTask(this.message)
 }

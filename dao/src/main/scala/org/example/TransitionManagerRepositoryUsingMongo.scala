@@ -14,6 +14,20 @@ class TransitionManagerRepositoryUsingMongo extends TransitionManagerRepository 
     .upsert(false)
     .returnDocument(ReturnDocument.AFTER)
 
+  override def pickUp(topic: String): Publisher[Message] = {
+    val search = Filters.and(
+      Filters.eq("topic", topic)
+      , Filters.exists("PICKED", exists = false)
+    )
+
+    val updates = Updates.combine(
+      Updates.set("PICKED", true)
+      , Updates.set("pickedAt", Instant.now)
+    )
+
+    MongoCommon.MESSAGE_COLLECTION.findOneAndUpdate(search, updates, UPDATE_OPTIONS)
+  }
+
   override def pickUp(topic: String, status: String): Publisher[Message] = {
     val search = Filters.and(
       Filters.eq("topic", topic)
@@ -24,6 +38,17 @@ class TransitionManagerRepositoryUsingMongo extends TransitionManagerRepository 
     val updates = Updates.combine(
       Updates.set("PICKED", true)
       , Updates.set("pickedAt", Instant.now)
+    )
+
+    MongoCommon.MESSAGE_COLLECTION.findOneAndUpdate(search, updates, UPDATE_OPTIONS)
+  }
+
+  override def putDown(_id: String): Publisher[Message] = {
+    val search = Filters.eq("_id", new ObjectId(_id))
+
+    val updates = Updates.combine(
+      Updates.unset("PICKED")
+      , Updates.set("putAt", Instant.now)
     )
 
     MongoCommon.MESSAGE_COLLECTION.findOneAndUpdate(search, updates, UPDATE_OPTIONS)
