@@ -17,7 +17,7 @@ Now about recruiting a Minion.
   * Current options are
     * Recruit
     * Employ
-    * AssignAssign
+    * Assign
 * What is expected?
   * [ ] Minion needs to know
     * What topic to address? (topic, status)

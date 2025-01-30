@@ -10,15 +10,15 @@ import org.reactivestreams.Publisher
 import scala.concurrent.duration.FiniteDuration
 
 class TaskConfigurationRepositoryUsingMongo extends TaskConfigurationRepository {
-  def create(startupDelay: FiniteDuration, pollDuration: FiniteDuration, topic: String, fromStatus: String, toStatus: String, task: Option[Array[Byte]], taskClass: Option[String]): Publisher[TaskConfiguration] = {
+  override def create(startupDelay: FiniteDuration, pollDuration: FiniteDuration, topic: String, fromStatus: String, toStatus: String, task: Option[Array[Byte]], taskClass: Option[String]): Publisher[TaskConfiguration] = {
     MongoCommon.TASK_CONFIGURATION_COLLECTION.insertOne(new TaskConfiguration(startupDelay, pollDuration, topic, fromStatus, toStatus, task, taskClass))
       .map(insertResult =>
         MongoCommon.TASK_CONFIGURATION_COLLECTION.find(equal("_id", insertResult.getInsertedId))
       )
-      .flatMap(TaskConfiguration => TaskConfiguration)
+      .flatMap(publisher => publisher)
   }
 
-  override def get(cls: Class[_ <: Task[_]]): Publisher[TaskConfiguration] = {
-    MongoCommon.TASK_CONFIGURATION_COLLECTION.find(equal("taskClass", cls.getCanonicalName)).first()
+  override def get(cls: TaskClass): Publisher[TaskConfiguration] = {
+    MongoCommon.TASK_CONFIGURATION_COLLECTION.find(equal("taskClass", Option(cls).map(_.getCanonicalName).orNull)).first().toObservable()
   }
 }

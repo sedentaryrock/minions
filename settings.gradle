@@ -11,7 +11,7 @@ dependencyResolutionManagement {
 
             // FixME: scala version must be derived from akka or alpaka
             library('scala-lib', 'org.scala-lang', 'scala-library').versionRef('scala')
-            library('reflections','org.reflections', 'reflections').versionRef('reflections')
+            library('reflections', 'org.reflections', 'reflections').versionRef('reflections')
 
             library('slf-api', 'org.slf4j', 'slf4j-api').versionRef('slf')
             library('slf-simple', 'org.slf4j', 'slf4j-simple').versionRef('slf')
