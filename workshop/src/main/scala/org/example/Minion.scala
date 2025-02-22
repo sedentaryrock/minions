@@ -38,11 +38,6 @@ object Minion {
 
         case Some(task) =>
           Source.tick(configuration.startupDelay, configuration.pollDuration, "Tick")
-            .map(tick => {
-              val now = Instant.now
-              println(s"Ticking ticks at $now")
-              tick
-            })
             .map(_ => transitionManagerRepository.pickUp("TOPIC", "CREATED"))
             .flatMapConcat(publisher => Source.fromPublisher(publisher))
 
@@ -83,8 +78,7 @@ object Minion {
       className <- classNameOpt
     } yield {
       try {
-        // Load the class dynamically
-        val classObj = Class.forName(className)
+        Class.forName(className)
 
         // Deserialize the byte array
         val byteArrayInputStream = new ByteArrayInputStream(byteArray)
@@ -98,7 +92,7 @@ object Minion {
         }
       } catch {
         case e: ClassNotFoundException =>
-          println(s"Class not found: $className")
+          println(s"Class not found: $className, exception is ${e.getMessage}")
           None
         case e: java.io.IOException =>
           println(s"Error reading byte array: ${e.getMessage}")

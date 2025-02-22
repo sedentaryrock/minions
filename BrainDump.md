@@ -26,3 +26,7 @@ Now about recruiting a Minion.
   * [ ] Task configuration
     * There are various kinds of tasks each with varied construction
     * Task and it's construction needs to be frozen to db and thawed when minion is recruited
+
+Elephant in the room
+* [ ] Akka Vs Pekko (Urgent, Important)
+* [ ] Serialization is a mess at the moment, see if same can be handled more generically
