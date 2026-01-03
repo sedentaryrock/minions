@@ -2,8 +2,8 @@ dependencyResolutionManagement {
     versionCatalogs {
         libs {
             version('scala', '2.13.12')
-            version('akka', '2.9.0')
-            version('alpakka', '7.0.0')
+            version('pekko', '1.0.1')
+            version('pekko-connectors', '1.0.0')
             version('mongodb', '4.11.1')
             version('slf', '2.0.7')
             version('reflections', '0.10.2')
@@ -16,8 +16,9 @@ dependencyResolutionManagement {
             library('slf-api', 'org.slf4j', 'slf4j-api').versionRef('slf')
             library('slf-simple', 'org.slf4j', 'slf4j-simple').versionRef('slf')
 
-            library('akka-stream', 'com.typesafe.akka', 'akka-stream_2.13').versionRef('akka')
-            library('alpakka', 'com.lightbend.akka', 'akka-stream-alpakka-mongodb_2.13').versionRef('alpakka')
+            library('pekko-stream', 'org.apache.pekko', 'pekko-stream_2.13').versionRef('pekko')
+            library('pekko-http', 'org.apache.pekko', 'pekko-http_2.13').versionRef('pekko')
+            library('pekko-connectors-mongodb', 'org.apache.pekko', 'pekko-connectors-mongodb_2.13').versionRef('pekko-connectors')
 
             library('mongodb-scala', 'org.mongodb.scala', 'mongo-scala-bson_2.13').versionRef('mongodb')
             library('mongodb', 'org.mongodb', 'mongodb-driver-reactivestreams').versionRef('mongodb')

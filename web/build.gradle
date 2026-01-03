@@ -5,7 +5,8 @@ plugins {
 
 dependencies {
     implementation(libs.scala.lib)
-    implementation(libs.alpakka)
+    implementation(libs.pekko.http)
+    implementation(libs.pekko.connectors.mongodb)
 
     implementation project(':core')
     implementation project(':models')
@@ -13,7 +14,6 @@ dependencies {
     implementation project(':api')
     implementation project(':services')
 
-    implementation 'io.vacco.java-express:java-express:0.2.1'
     implementation 'io.circe:circe-core_2.13:0.14.6'
     implementation 'io.circe:circe-parser_2.13:0.14.6'
     implementation 'io.circe:circe-generic_2.13:0.14.6'

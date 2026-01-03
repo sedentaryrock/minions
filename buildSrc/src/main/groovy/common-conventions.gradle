@@ -14,10 +14,10 @@ version = '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
     maven {
-        url "https://repo.akka.io/maven"
+        url "https://jcenter.bintray.com/"
     }
     maven {
-        url "https://jcenter.bintray.com/"
+        url "https://maven.pkg.github.com/vacco-java/java-express"
     }
 }
 

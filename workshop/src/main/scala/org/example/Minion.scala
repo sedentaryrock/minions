@@ -1,7 +1,7 @@
 package org.example
 
-import akka.actor.ActorSystem
-import akka.stream.scaladsl.{Sink, Source}
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.scaladsl.{Sink, Source}
 import org.example.helpers.{StdSerializationHelper, TaskLocator}
 import org.example.minion.tasks.{SampleTask, Task}
 import org.example.model.{Message, TaskConfiguration}

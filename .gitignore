@@ -25,6 +25,15 @@ gradle-app.setting
 *.iml
 *.ipr
 
+# VS Code
+.vscode/
+
+# Bloop (build server)
+.bloop/
+
+# Metals (Scala language server)
+.metals/
+
 
 # Ignore Gradle build output directory
 build

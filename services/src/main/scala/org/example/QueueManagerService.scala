@@ -1,7 +1,7 @@
 package org.example
 
-import akka.actor.ActorSystem
-import akka.stream.scaladsl.{Keep, Sink, Source}
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.scaladsl.{Keep, Sink, Source}
 import org.example.model.Message
 
 import scala.concurrent.Future

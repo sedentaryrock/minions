@@ -3,8 +3,8 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.akka.stream)
-    implementation(libs.alpakka)
+    implementation(libs.pekko.stream)
+    implementation(libs.pekko.connectors.mongodb)
 
     implementation(libs.mongodb)
     implementation(libs.mongodb.scala)
