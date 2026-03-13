@@ -27,14 +27,25 @@ object MongoCommon {
     , DEFAULT_CODEC_REGISTRY
   )
 
+  private def buildMongoUri(): String = {
+    if (Configuration.mongodbUser.nonEmpty && Configuration.mongodbPassword.nonEmpty) {
+      val baseUrl = Configuration.mongodbUrl
+      val userPass = s"${Configuration.mongodbUser}:${Configuration.mongodbPassword}@"
+      val authDb = Configuration.mongodbAuthDb
+      baseUrl.replaceFirst("mongodb://", s"mongodb://$userPass") + s"/?authSource=$authDb"
+    } else {
+      Configuration.mongodbUrl
+    }
+  }
+
   val MESSAGE_COLLECTION: MongoCollection[Message] =
-    MongoClients.create(Configuration.mongodbUrl)
+    MongoClients.create(buildMongoUri())
       .getDatabase(Configuration.mongodbDbName)
       .getCollection(MESSAGE_COLLECTION_NAME, classOf[Message])
       .withCodecRegistry(MESSAGE_CODEC_REGISTRY)
 
   val TASK_CONFIGURATION_COLLECTION: MongoCollection[TaskConfiguration] =
-    MongoClients.create(Configuration.mongodbUrl)
+    MongoClients.create(buildMongoUri())
       .getDatabase(Configuration.mongodbDbName)
       .getCollection(TASK_CONFIGURATION_COLLECTION_NAME, classOf[TaskConfiguration])
       .withCodecRegistry(TASK_CONFIGURATION_CODEC_REGISTRY)

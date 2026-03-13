@@ -8,7 +8,6 @@ import org.example.model.{Message, TaskConfiguration}
 import org.mongodb.scala.{BoxedPublisher, Observable}
 
 import java.io.{ByteArrayOutputStream, ObjectOutputStream}
-import java.time.Instant
 import java.util.Base64
 import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
@@ -22,8 +21,8 @@ object Minion {
     println("Serialized bytes are " + serializeToBase64(new SampleTask("Sample TASK")))
 
     implicit val actorSystem: ActorSystem = ActorSystem.create(Configuration.actorSystemName)
-    val optionTask: Option[Class[_ <:Task[_]]] = TaskLocator.getTaskClass("org.example.minion.tasks")
-    val taskConfigurationObservable: Observable[TaskConfiguration] =  taskConfigurationRepository.get(optionTask.getOrElse(classOf[SampleTask])).toObservable()
+    val optionTask: Option[Class[_ <:Task[_]]] = TaskLocator.getTaskClass("org.example.minion.tasks.SampleTask")
+    val taskConfigurationObservable: Observable[TaskConfiguration] =  taskConfigurationRepository.get(optionTask.getOrElse(classOf[SampleTask]).getCanonicalName).toObservable()
 
     val taskConfiguration: Seq[TaskConfiguration] = Await.result(taskConfigurationObservable.toFuture(), 10.seconds)
 
@@ -38,7 +37,7 @@ object Minion {
 
         case Some(task) =>
           Source.tick(configuration.startupDelay, configuration.pollDuration, "Tick")
-            .map(_ => transitionManagerRepository.pickUp("TOPIC", "CREATED"))
+            .map(_ => transitionManagerRepository.pickUp(configuration.topic, configuration.fromStatus))
             .flatMapConcat(publisher => Source.fromPublisher(publisher))
 
             .map(message => {
@@ -54,7 +53,7 @@ object Minion {
 
             .map(message => {
               println(s"Putting down message with _id: ${message._id}")
-              transitionManagerRepository.putDown(message._id.toString, "PICKED")
+              transitionManagerRepository.putDown(message._id.toString, configuration.toStatus)
             })
             .flatMapConcat(publisher => Source.fromPublisher(publisher))
 

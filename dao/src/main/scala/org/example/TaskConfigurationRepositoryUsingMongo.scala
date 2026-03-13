@@ -18,7 +18,7 @@ class TaskConfigurationRepositoryUsingMongo extends TaskConfigurationRepository 
       .flatMap(publisher => publisher)
   }
 
-  override def get(cls: TaskClass): Publisher[TaskConfiguration] = {
-    MongoCommon.TASK_CONFIGURATION_COLLECTION.find(equal("taskClass", Option(cls).map(_.getCanonicalName).orNull)).first().toObservable()
+  override def get(cls: String): Publisher[TaskConfiguration] = {
+    MongoCommon.TASK_CONFIGURATION_COLLECTION.find(equal("taskClass", cls)).first().toObservable()
   }
 }

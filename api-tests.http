@@ -1,0 +1,69 @@
+### Queue Manager API Tests
+### Base URL for the server
+@baseUrl = http://localhost:9090
+
+### Test 1: Create a queue message (Success case)
+POST {{baseUrl}}/queue-manager
+Content-Type: application/json
+
+{
+  "messageId": "msg-001",
+  "topic": "task-processing",
+  "status": "CREATED"
+}
+
+### Test 2: Create another queue message with different topic
+POST {{baseUrl}}/queue-manager
+Content-Type: application/json
+
+{
+  "messageId": "msg-002",
+  "topic": "payments",
+  "status": "processing"
+}
+
+### Test 3: Create queue message with completed status
+POST {{baseUrl}}/queue-manager
+Content-Type: application/json
+
+{
+  "messageId": "msg-003",
+  "topic": "notifications",
+  "status": "completed"
+}
+
+### Test 4: Invalid JSON (Bad Request)
+POST {{baseUrl}}/queue-manager
+Content-Type: application/json
+
+{
+  "messageId": "msg-004",
+  "topic": "invalid"
+}
+
+### Test 5: Missing required fields
+POST {{baseUrl}}/queue-manager
+Content-Type: application/json
+
+{
+  "messageId": "msg-005"
+}
+
+### Task Configuration API Tests
+
+### Test 6: Create a TaskConfiguration (Success case)
+POST {{baseUrl}}/configurations
+Content-Type: application/json
+
+{
+  "startupDelay": 1000,
+  "pollDuration": 5000,
+  "topic": "task-processing",
+  "fromStatus": "CREATED",
+  "toStatus": "PICKED",
+  "taskClass": "SampleTask",
+  "task": "rO0ABXNyACNvcmcuZXhhbXBsZS5taW5pb24udGFza3MuU2FtcGxlVGFza3zMrPKfJRczAgABTAAHbWVzc2FnZXQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwdAALU2FtcGxlIFRBU0s="
+}
+
+### Test 7: Retrieve a TaskConfiguration by taskClass
+GET {{baseUrl}}/configurations/SampleTask

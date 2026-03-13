@@ -14,6 +14,9 @@ object Configuration {
   // MongoDB
   private val DEFAULT_MONGODB_URL = "mongodb://localhost:27017"
   private val DEFAULT_MONGODB_DB_NAME = "TEST"
+  private val DEFAULT_MONGODB_USER = "admin"
+  private val DEFAULT_MONGODB_PASSWORD = "secret"
+  private val DEFAULT_MONGODB_AUTHDB = "admin"
 
 
   // TODO: Read values from configuration properties or typesafe config file
@@ -37,5 +40,8 @@ object Configuration {
   val SERVER_PORT: Int = readConfig("server.port", DEFAULT_SERVER_PORT)
   val mongodbUrl: String = readConfig("mongodb-url", DEFAULT_MONGODB_URL)
   val mongodbDbName: String = readConfig("mongodbDbName", DEFAULT_MONGODB_DB_NAME)
+  val mongodbUser: String = readConfig("mongodb-user", DEFAULT_MONGODB_USER)
+  val mongodbPassword: String = readConfig("mongodb-password", DEFAULT_MONGODB_PASSWORD)
+  val mongodbAuthDb: String = readConfig("mongodb-authdb", DEFAULT_MONGODB_AUTHDB)
   val actorSystemName: String = readConfig("actorSystemName", DEFAULT_ACTOR_SYSTEM_NAME)
 }
