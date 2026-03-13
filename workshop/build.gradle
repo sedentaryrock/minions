@@ -13,6 +13,6 @@ dependencies {
     implementation project(':core')
     implementation project(':models')
     implementation project(':dao')
-
+    implementation project(':services')
     implementation project(':tasks')
 }

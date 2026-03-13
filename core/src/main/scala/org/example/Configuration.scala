@@ -18,6 +18,9 @@ object Configuration {
   private val DEFAULT_MONGODB_PASSWORD = "secret"
   private val DEFAULT_MONGODB_AUTHDB = "admin"
 
+  // Janitor Service
+  private val DEFAULT_HUNG_JOB_TIMEOUT_MINUTES = 30
+
 
   // TODO: Read values from configuration properties or typesafe config file
   /*
@@ -44,4 +47,5 @@ object Configuration {
   val mongodbPassword: String = readConfig("mongodb-password", DEFAULT_MONGODB_PASSWORD)
   val mongodbAuthDb: String = readConfig("mongodb-authdb", DEFAULT_MONGODB_AUTHDB)
   val actorSystemName: String = readConfig("actorSystemName", DEFAULT_ACTOR_SYSTEM_NAME)
+  val hungJobTimeoutMinutes: Int = readConfig("janitor.hung-job-timeout-minutes", DEFAULT_HUNG_JOB_TIMEOUT_MINUTES)
 }
