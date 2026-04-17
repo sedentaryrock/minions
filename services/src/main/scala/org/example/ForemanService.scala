@@ -12,10 +12,10 @@ import java.io.{ByteArrayInputStream, ObjectInputStream}
 import scala.concurrent.duration.FiniteDuration
 
 /**
- * MinionService handles the processing of messages through configured task pipelines.
- * It manages the stream-based message flow: pickup → execute → update → putdown.
+ * ForemanService sets up and runs the processing stations defined by task configurations.
+ * It manages the stream-based message flow: pickup -> execute -> update -> putdown.
  */
-class MinionService(
+class ForemanService(
   transitionManagerRepository: TransitionManagerRepository,
   messageRepository: MessageRepository
 ) {
@@ -111,4 +111,3 @@ class MinionService(
     }
   }.flatten
 }
-

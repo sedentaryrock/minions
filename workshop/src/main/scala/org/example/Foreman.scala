@@ -13,21 +13,20 @@ import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
 
 /**
- * Minion executor - runs as a background service to process messages through
- * configured task pipelines. Each task configuration defines a source (topic/status),
- * the task to execute, and the destination status.
+ * Foreman orchestrator - runs as a background service to read task configurations
+ * and set up processing stations for each configured pipeline.
  */
-object Minion {
+object Foreman {
   private val logger: Logger = LoggerFactory.getLogger(getClass)
 
   // ...existing code...
   private val transitionManagerRepository: TransitionManagerRepository = new TransitionManagerRepositoryUsingMongo
   private val messageRepository: MessageRepository = new MessageRepositoryUsingMongo
   private val taskConfigurationRepository: TaskConfigurationRepository = new TaskConfigurationRepositoryUsingMongo
-  private val minionService: MinionService = new MinionService(transitionManagerRepository, messageRepository)
+  private val foremanService: ForemanService = new ForemanService(transitionManagerRepository, messageRepository)
 
   def main(args: Array[String]): Unit = {
-    logger.info("Starting Minion service...")
+    logger.info("Starting Foreman service...")
 
     val sampleTaskSerialized = serializeToBase64(new SampleTask("Sample TASK"))
     logger.debug(s"Sample task serialization: $sampleTaskSerialized")
@@ -43,7 +42,7 @@ object Minion {
     val taskConfigurations: Seq[TaskConfiguration] = Await.result(taskConfigurationObservable.toFuture(), 10.seconds)
 
     if (taskConfigurations.isEmpty) {
-      logger.warn("No task configurations found. Minion has nothing to do.")
+      logger.warn("No task configurations found. Foreman has no stations to set up.")
       return
     }
 
@@ -53,7 +52,7 @@ object Minion {
     taskConfigurations.foreach(configuration => {
       logger.info(s"Setting up processor for topic=${configuration.topic}, fromStatus=${configuration.fromStatus}, toStatus=${configuration.toStatus}")
 
-      val result: Option[Task[_]] = minionService.deserializeTask(configuration.task, configuration.taskClass)
+      val result: Option[Task[_]] = foremanService.deserializeTask(configuration.task, configuration.taskClass)
 
       result match {
         case None =>
@@ -61,11 +60,11 @@ object Minion {
 
         case Some(task) =>
           logger.info(s"Task deserialized successfully: ${task.kind}")
-          minionService.processTaskConfiguration(configuration, task)
+          foremanService.processTaskConfiguration(configuration, task)
       }
     })
 
-    logger.info("Minion initialization complete. Message processing streams are now active.")
+    logger.info("Foreman initialization complete. Processing stations are now active.")
   }
 
   /**
