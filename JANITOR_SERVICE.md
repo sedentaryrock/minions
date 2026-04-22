@@ -88,7 +88,7 @@ NO → Leave alone (either recently picked or legitimately long-running)
 - `workshop` module now depends on `services` module
 
 ### No Changes to
-- Minion executor
+- Foreman orchestrator
 - Queue management
 - Task execution
 - API endpoints
@@ -147,4 +147,3 @@ To test the Janitor service:
 2. Set pickedAt to a time > hungJobTimeoutMinutes ago
 3. Run Janitor cleanup
 4. Verify message status changed to DEAD and PICKED flag removed
-
